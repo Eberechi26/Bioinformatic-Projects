@@ -1,5 +1,4 @@
-# Bioinformatic-Projects
-# BioinformHer Mini Project
+# Bioinformatic-Project
 # Title - Tracking the Evolution of the Hemoglobin Beta (HBB) Gene Across Species
 # Project Objective
 * Investigated the evolutionary conservation of the HBB gene across six species. This includes sequence retrieval, alignment, logo generation, and phylogenetic tree construction. 
