@@ -1,0 +1,45 @@
+---
+title: "HackBio Project"
+author: "Eberechi"
+date: "2025-09-11"
+output:
+  html_document: default
+  word_document: default
+---
+##Extreme Plotting in R
+
+```{r}
+set.seed(1001)
+x1=1:100+rnorm(100,mean=0,sd=15)
+y1=1:100
+```
+
+#Created a scatter plot using the x1 and y1 vectors using the “main” argument to give a title to the plot.  Using the xlab and ylab arguments, the labels for x-axis and y-axis was set respectively. Calculated the correlation coefficient between the two vectors. Pearson correlation is a measure of the linear correlation (dependence) between two variables X and Y. The margin text (mtext) and paste function was used to attach the correlation coefficient to the plot. Changed the color to red and point of character (pch) to 18.
+```{r}
+plot(x1, y1, main = "Sample of a Population", xlab = "Sample mean",
+     ylab = "Population", col = "red", pch = 18, mtext(side=3,text=paste(cor(x1, y1)))) 
+
+```
+
+#Created a histogram graph of x1 with the hist () function, a histogram is a graphical representation of the data distribution. Changed the color to yellow, added the x-axis and y-axis labels including the title. 
+```{r}
+hist(x1, col = "yellow", xlab = "Sample", ylab = "Frequecy of x", main = "Distribution of Population")
+```
+
+#Plotted a boxplot of x1 and y1 arranged horizontally to merge the plots in the same output.
+```{r}
+boxplot(y1, x1, col = "black", horizontal = TRUE)
+```
+
+#Plotted a boxplot and histogram using par(mfrow) to merge the plots in the same output 
+```{r}
+par(mfrow=c(2,1))
+hist(x1, col = "blue")
+boxplot(x1, y1)
+```
+
+```{r}
+par(mfrow=c(1,2))
+hist(x1, col = "green")
+boxplot(x1, y1, col = "red")
+```
