@@ -1,0 +1,108 @@
+---
+---
+---
+
+Importing Libraries
+
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+Loading the Data
+
+```{r}
+data <- read.table(file = "https://raw.githubusercontent.com/HackBio-Internship/public_datasets/main/R/lancet_malaria.txt", header = TRUE, sep = "\t")
+malaria_data <- data
+head(malaria_data)
+```
+
+Changing the Column Names
+
+```{r}
+colnames(malaria_data) <- c("Review_Found", "Author",	"Title", "Year",	"Global_Region",	"Country", 	"Location",	"PCR_N_Tested",	"PCR_N_Positive",	"Percent_PCR",  "Microscopy_N_Tested",	"Microscopy_N_Positive",	"Percent_Microscopy",  "Historical_Transmission",	"Current_Transmission",	"Setting_20",	"Setting_15",	"Setting_10",	"Setting_5",	"PCR_Method",	"Microscopy_Fields",	"Sampling_Season",	"Notes")
+head(malaria_data)
+```
+
+\*\* Descriptive Statistics 
+
+Total Number of cases tested by PCR
+
+```{r}
+sum(as.numeric(malaria_data$PCR_N_Tested), na.rm = TRUE)
+```
+
+Total Number of Positive cases by PCR
+
+```{r}
+sum(as.numeric(malaria_data$PCR_N_Positive), na.rm = TRUE)
+```
+
+Percentage Positive by PCR
+
+```{r}
+sum(malaria_data$'Percent_PCR')
+```
+
+Visualization 
+
+visualizing the PCR % against microscopy %.
+
+```{r}
+plot(malaria_data$"Percent_PCR", malaria_data$"Percent_Microscopy", main = "PCR and Microscopy Prevalence", xlab = "%Microscopy", ylab = "%PCR", pch = 18, col = "brown")
+abline(0, 1, lty = 2, col = "blue")
+```
+
+#Trial
+
+```{r}
+par(mfrow=c(2, 2))
+
+asia_data <- malaria_data[malaria_data$Global_Region == "Asia & Oceania", ]
+east_africa_data <- malaria_data[malaria_data$Global_Region == "East Africa", ]
+south_america_data <- malaria_data[malaria_data$Global_Region == "South America", ]
+West_africa_data <- malaria_data[malaria_data$Global_Region == "West Africa", ]
+
+
+region_plot <- function(malaria_data, Global_Region) {
+  plot (malaria_data$Percent_Microscopy, malaria_data$Percent_PCR,
+        xlim = c(0, 100), ylim = c(0, 100),
+        xlab = "%Microscopy", ylab = "%PCR",
+        main = Global_Region,
+        col = "blue", pch = 16)
+  abline(a=0, b=1, lty="dotted")
+}
+
+
+region_plot(asia_data, "Asia & Oceania")
+region_plot(east_africa_data, "East Africa")
+region_plot(south_america_data, "South America")
+region_plot(West_africa_data, "West Africa")
+
+par(mfrow= c(1, 1))
+```
+
+```{r}
+malaria_data$Prevalence_Ratio <- malaria_data$Microscopy_N_Positive / malaria_data$PCR_N_Positive
+head(malaria_data)
+```
+
+```{r}
+ggplot(malaria_data, aes(x = Percent_Microscopy, y = Percent_PCR, color = Global_Region)) + geom_point() + geom_abline(intercept = 0, slope = 1, linetype = "dotted") + facet_wrap(~ Global_Region) + labs(title = "PCR% Vs Microscopy% by region", x = "Microscopy %", y = "percent")
+
+
+```
+
+```{r}
+boxplot(Prevalence_Ratio ~ Global_Region, data = malaria_data, 
+        main = "prevalence ratio by Global_Region",
+        xlab = "Global_Region", ylab = "Prevalence Ratio",
+        col = c("lightblue", "lightgreen", "lightpink", "lightyellow"),
+        las = 2, notch = TRUE)
+abline(h = 1, col = "red", lty = 2)
+```
+
+```{r}
+ggplot(malaria_data, aes(x = Global_Region, y = Prevalence_Ratio, fill = Global_Region)) + 
+geom_boxplot(alpha = 0.7) + labs(title = "Prevalence Ratio by Region", x = "Region", y = "Prevalence Ratio")
+```
