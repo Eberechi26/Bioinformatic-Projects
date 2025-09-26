@@ -23,7 +23,6 @@ head(malaria_data)
 ```
 
 **Descriptive Statistics 
-
 Total Number of cases tested by PCR
 
 ```{r}
@@ -43,8 +42,7 @@ sum(malaria_data$'Percent_PCR')
 ```
 
 **Visualization 
-
-**Visualizing the PCR % against Microscopy %.
+Visualizing the PCR % against Microscopy %.
 
 ```{r}
 plot(malaria_data$"Percent_PCR", malaria_data$"Percent_Microscopy", main = "PCR and Microscopy Prevalence", xlab = "%Microscopy", ylab = "%PCR", pch = 18, col = "brown")
@@ -106,4 +104,5 @@ abline(h = 1, col = "red", lty = 2)
 ggplot(malaria_data, aes(x = Global_Region, y = Prevalence_Ratio, fill = Global_Region)) + 
 geom_boxplot(alpha = 0.7) + labs(title = "Prevalence Ratio by Region", x = "Region", y = "Prevalence Ratio")
 ```
+
 
